@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "749983421630",
+    "project_id": "inclujob-446a1",
+    "storage_bucket": "inclujob-446a1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:749983421630:android:342e96d6d1ff295713baef",
+        "android_client_info": {
+          "package_name": "com.example.inclujob"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAq6FBK3rJZUFTPU-MaA0zJaRblSmnmM_Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
