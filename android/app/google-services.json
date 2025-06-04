@@ -12,7 +12,12 @@
           "package_name": "com.example.inclujob"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "749983421630-3m7csvhqqcrasmi92boqfksk6im4jc00.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAq6FBK3rJZUFTPU-MaA0zJaRblSmnmM_Y"
@@ -20,7 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "749983421630-3m7csvhqqcrasmi92boqfksk6im4jc00.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "749983421630-2h3v4k94u1s1cv39n2ct6unpls256cco.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.inclujob"
+              }
+            }
+          ]
         }
       }
     }

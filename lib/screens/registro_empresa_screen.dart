@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
+import 'login_empresa_screen.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 class RegistroEmpresaScreen extends StatefulWidget {
   const RegistroEmpresaScreen({super.key});
@@ -10,65 +12,75 @@ class RegistroEmpresaScreen extends StatefulWidget {
 
 class _RegistroEmpresaScreenState extends State<RegistroEmpresaScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _authService = AuthService();
+  final authService = AuthService();
+  final stt.SpeechToText _speech = stt.SpeechToText();
 
-  final _nombreEmpresaController = TextEditingController();
-  final _gerenteController = TextEditingController();
-  final _rubroController = TextEditingController();
-  final _rucController = TextEditingController();
-  final _escalaController = TextEditingController();
-  final _ubicacionController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  String? _errorMessage;
+  final _email = TextEditingController();
+  final _password = TextEditingController();
+  final _nombreEmpresa = TextEditingController();
+  final _gerente = TextEditingController();
+  final _rubro = TextEditingController();
+  final _ruc = TextEditingController();
+  final _ubicacion = TextEditingController();
 
   void _registrar() async {
     if (_formKey.currentState!.validate()) {
-      final error = await _authService.registrarEmpresa(
-        nombreEmpresa: _nombreEmpresaController.text,
-        gerente: _gerenteController.text,
-        rubro: _rubroController.text,
-        ruc: _rucController.text,
-        escala: _escalaController.text,
-        ubicacion: _ubicacionController.text,
-        email: _emailController.text,
-        password: _passwordController.text,
+      final user = await authService.registerEmpresa(
+        email: _email.text,
+        password: _password.text,
+        nombreEmpresa: _nombreEmpresa.text,
+        gerente: _gerente.text,
+        rubro: _rubro.text,
+        ruc: _ruc.text,
+        ubicacion: _ubicacion.text,
       );
-      if (error != null) {
-        setState(() => _errorMessage = error);
-      } else {
-        Navigator.pop(context);
+      if (user != null && mounted) {
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const LoginEmpresaScreen()));
       }
     }
+  }
+
+  void _listen(TextEditingController controller) async {
+    if (!_speech.isListening) {
+      bool available = await _speech.initialize();
+      if (available) {
+        _speech.listen(onResult: (val) {
+          setState(() => controller.text = val.recognizedWords);
+        });
+      }
+    } else {
+      _speech.stop();
+    }
+  }
+
+  Widget _buildVoiceField(String label, TextEditingController controller) {
+    return Row(
+      children: [
+        Expanded(child: TextFormField(controller: controller, decoration: InputDecoration(labelText: label))),
+        IconButton(onPressed: () => _listen(controller), icon: const Icon(Icons.mic))
+      ],
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Registro de Empresa')),
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              if (_errorMessage != null)
-                Text(_errorMessage!, style: const TextStyle(color: Colors.red)),
-              TextFormField(controller: _nombreEmpresaController, decoration: const InputDecoration(labelText: 'Nombre de la Empresa')),
-              TextFormField(controller: _gerenteController, decoration: const InputDecoration(labelText: 'Nombre del Gerente')),
-              TextFormField(controller: _rubroController, decoration: const InputDecoration(labelText: 'Rubro')),
-              TextFormField(controller: _rucController, decoration: const InputDecoration(labelText: 'RUC')),
-              TextFormField(controller: _escalaController, decoration: const InputDecoration(labelText: 'Escala')),
-              TextFormField(controller: _ubicacionController, decoration: const InputDecoration(labelText: 'Ubicación')),
-              TextFormField(controller: _emailController, decoration: const InputDecoration(labelText: 'Correo Electrónico')),
-              TextFormField(controller: _passwordController, obscureText: true, decoration: const InputDecoration(labelText: 'Contraseña')),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _registrar,
-                child: const Text('Registrar Empresa'),
-              ),
-            ],
-          ),
+      appBar: AppBar(title: const Text('Registro Empresa')),
+      body: Form(
+        key: _formKey,
+        child: ListView(
+          padding: const EdgeInsets.all(16),
+          children: [
+            _buildVoiceField('Correo Electrónico', _email),
+            TextFormField(controller: _password, obscureText: true, decoration: const InputDecoration(labelText: 'Contraseña')),
+            _buildVoiceField('Nombre Empresa', _nombreEmpresa),
+            _buildVoiceField('Gerente', _gerente),
+            _buildVoiceField('Rubro', _rubro),
+            _buildVoiceField('RUC', _ruc),
+            _buildVoiceField('Ubicación', _ubicacion),
+            const SizedBox(height: 20),
+            ElevatedButton(onPressed: _registrar, child: const Text('Registrarse')),
+          ],
         ),
       ),
     );

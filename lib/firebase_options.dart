@@ -64,6 +64,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '749983421630',
     projectId: 'inclujob-446a1',
     storageBucket: 'inclujob-446a1.firebasestorage.app',
+    iosClientId: '749983421630-2h3v4k94u1s1cv39n2ct6unpls256cco.apps.googleusercontent.com',
     iosBundleId: 'com.example.inclujob',
   );
 
@@ -73,6 +74,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '749983421630',
     projectId: 'inclujob-446a1',
     storageBucket: 'inclujob-446a1.firebasestorage.app',
+    iosClientId: '749983421630-2h3v4k94u1s1cv39n2ct6unpls256cco.apps.googleusercontent.com',
     iosBundleId: 'com.example.inclujob',
   );
 
@@ -85,4 +87,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'inclujob-446a1.firebasestorage.app',
     measurementId: 'G-3YEN5Z5ZNK',
   );
+
 }

@@ -64,7 +64,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
-              'Bienvenido a Oportunidades Inclusivas',
+              'Bienvenido a IncluJob',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.teal),
               textAlign: TextAlign.center,
             ),
