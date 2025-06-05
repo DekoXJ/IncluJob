@@ -57,15 +57,24 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.teal[50],
+      backgroundColor: const Color(0xFFD4E6F1), // Fondo azul claro como el del logo
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Image.asset(
+              'assets/images/logo.png',
+              height: 200,
+            ),
+            const SizedBox(height: 20),
             const Text(
               'Bienvenido a IncluJob',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.teal),
+              style: TextStyle(
+                fontSize: 28,
+                fontFamily: 'Righteous',
+                color: Color(0xFF1C2833), // Azul oscuro
+              ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 40),
@@ -74,8 +83,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               label: const Text('Iniciar sesión como Usuario'),
               onPressed: () => Navigator.pushNamed(context, '/loginUsuario'),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.teal,
+                backgroundColor: const Color(0xFF2C3E50),
+                foregroundColor: Colors.white,
                 minimumSize: const Size(double.infinity, 50),
+                textStyle: const TextStyle(fontFamily: 'Righteous'),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
               ),
             ),
             const SizedBox(height: 10),
@@ -84,8 +96,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               label: const Text('Iniciar sesión como Empresa'),
               onPressed: () => Navigator.pushNamed(context, '/loginEmpresa'),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.teal[700],
+                backgroundColor: const Color(0xFF34495E),
+                foregroundColor: Colors.white,
                 minimumSize: const Size(double.infinity, 50),
+                textStyle: const TextStyle(fontFamily: 'Righteous'),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
               ),
             ),
             const SizedBox(height: 10),
@@ -94,14 +109,21 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               label: Text(_isListening ? 'Escuchando...' : 'Usar Voz'),
               onPressed: _isListening ? null : _startListening,
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orange,
+                backgroundColor: const Color(0xFFF5B041), // Complementario naranja suave
+                foregroundColor: Colors.white,
                 minimumSize: const Size(double.infinity, 50),
+                textStyle: const TextStyle(fontFamily: 'Righteous'),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
               ),
             ),
-            const SizedBox(height: 40),
+            const SizedBox(height: 30),
             const Text(
               'También puedes decir "USUARIO" o "EMPRESA" para continuar',
-              style: TextStyle(fontSize: 16),
+              style: TextStyle(
+                fontSize: 16,
+                fontFamily: 'Righteous',
+                color: Color(0xFF566573),
+              ),
               textAlign: TextAlign.center,
             ),
           ],

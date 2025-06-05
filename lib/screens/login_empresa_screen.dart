@@ -22,7 +22,9 @@ class _LoginEmpresaScreenState extends State<LoginEmpresaScreen> {
     if (user != null && mounted) {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const DashboardEmpresa()));
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Credenciales inválidas')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Credenciales inválidas')),
+      );
     }
   }
 
@@ -48,21 +50,74 @@ class _LoginEmpresaScreenState extends State<LoginEmpresaScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Login Empresa')),
+      backgroundColor: const Color(0xFFD4E6F1),
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF2C3E50),
+        title: const Text(
+          'Login Empresa',
+          style: TextStyle(fontFamily: 'Righteous', color: Colors.white),
+        ),
+      ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(20),
         child: Column(
           children: [
+            const SizedBox(height: 40),
+            const CircleAvatar(
+              radius: 50,
+              backgroundColor: Color(0xFF2C3E50),
+              child: Icon(Icons.business, size: 50, color: Colors.white),
+            ),
+            const SizedBox(height: 30),
             Row(
               children: [
-                Expanded(child: TextField(controller: _email, decoration: const InputDecoration(labelText: 'Correo'))),
-                IconButton(onPressed: _listenEmail, icon: const Icon(Icons.mic))
+                Expanded(
+                  child: TextField(
+                    controller: _email,
+                    decoration: const InputDecoration(
+                      labelText: 'Correo',
+                      labelStyle: TextStyle(fontFamily: 'Righteous'),
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                IconButton(
+                  icon: const Icon(Icons.mic, color: Color(0xFFF5B041)),
+                  onPressed: _listenEmail,
+                ),
               ],
             ),
-            TextField(controller: _password, obscureText: true, decoration: const InputDecoration(labelText: 'Contraseña')),
-            const SizedBox(height: 20),
-            ElevatedButton(onPressed: _login, child: const Text('Iniciar sesión')),
-            TextButton(onPressed: _goToRegister, child: const Text('¿No tienes cuenta? Regístrate')),
+            const SizedBox(height: 16),
+            TextField(
+              controller: _password,
+              obscureText: true,
+              decoration: const InputDecoration(
+                labelText: 'Contraseña',
+                labelStyle: TextStyle(fontFamily: 'Righteous'),
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 30),
+            ElevatedButton(
+              onPressed: _login,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF2C3E50),
+                foregroundColor: Colors.white,
+                minimumSize: const Size(double.infinity, 50),
+                textStyle: const TextStyle(fontSize: 18, fontFamily: 'Righteous'),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+              ),
+              child: const Text('Iniciar sesión'),
+            ),
+            const SizedBox(height: 10),
+            TextButton(
+              onPressed: _goToRegister,
+              child: const Text(
+                '¿No tienes cuenta? Regístrate',
+                style: TextStyle(fontFamily: 'Righteous', color: Color(0xFF34495E)),
+              ),
+            ),
           ],
         ),
       ),

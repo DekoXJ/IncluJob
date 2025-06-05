@@ -10,7 +10,6 @@ class RegistroUsuarioScreen extends StatefulWidget {
   State<RegistroUsuarioScreen> createState() => _RegistroUsuarioScreenState();
 }
 
-
 class _RegistroUsuarioScreenState extends State<RegistroUsuarioScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -67,35 +66,58 @@ class _RegistroUsuarioScreenState extends State<RegistroUsuarioScreen> {
   }
 
   Widget _buildField(String label, TextEditingController controller, {bool isPassword = false}) {
-    return Row(
-      children: [
-        Expanded(
-          child: TextFormField(
-            controller: controller,
-            obscureText: isPassword,
-            decoration: InputDecoration(labelText: label),
-            validator: (value) => value!.isEmpty ? 'Campo requerido' : null,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Expanded(
+            child: TextFormField(
+              controller: controller,
+              obscureText: isPassword,
+              decoration: InputDecoration(
+                labelText: label,
+                labelStyle: const TextStyle(fontFamily: 'Righteous'),
+                border: const OutlineInputBorder(),
+              ),
+              validator: (value) => value!.isEmpty ? 'Campo requerido' : null,
+            ),
           ),
-        ),
-        if (!isPassword)
-          IconButton(
-            icon: const Icon(Icons.mic),
-            onPressed: () => _listen(controller),
-          )
-      ],
+          if (!isPassword)
+            const SizedBox(width: 8),
+          if (!isPassword)
+            IconButton(
+              icon: const Icon(Icons.mic, color: Color(0xFFF5B041)),
+              onPressed: () => _listen(controller),
+            ),
+        ],
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Registro Usuario')),
+      backgroundColor: const Color(0xFFD4E6F1),
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF2C3E50),
+        title: const Text('Registro Usuario', style: TextStyle(fontFamily: 'Righteous', color: Colors.white)),
+      ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(20),
         child: Form(
           key: _formKey,
           child: ListView(
             children: [
+              const SizedBox(height: 10),
+              const Center(
+                child: CircleAvatar(
+                  radius: 45,
+                  backgroundColor: Color(0xFF2C3E50),
+                  child: Icon(Icons.person, color: Colors.white, size: 50),
+                ),
+              ),
+              const SizedBox(height: 20),
               _buildField('Correo Electrónico', _emailController),
               _buildField('Contraseña', _passwordController, isPassword: true),
               _buildField('Nombre', _nombreController),
@@ -109,8 +131,15 @@ class _RegistroUsuarioScreenState extends State<RegistroUsuarioScreen> {
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _registrarUsuario,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF2C3E50),
+                  foregroundColor: Colors.white,
+                  minimumSize: const Size(double.infinity, 50),
+                  textStyle: const TextStyle(fontSize: 18, fontFamily: 'Righteous'),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                ),
                 child: const Text('Registrarse'),
-              )
+              ),
             ],
           ),
         ),

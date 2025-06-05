@@ -76,6 +76,23 @@ class _DashboardEmpresaState extends State<DashboardEmpresa> {
     }
   }
 
+  Widget _customField(String label, TextEditingController controller) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: TextFormField(
+        controller: controller,
+        decoration: InputDecoration(
+          labelText: label,
+          labelStyle: const TextStyle(fontFamily: 'Righteous'),
+          filled: true,
+          fillColor: const Color(0xFFD6EAF8),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+        ),
+        validator: (value) => value == null || value.isEmpty ? 'Campo requerido' : null,
+      ),
+    );
+  }
+
   Widget _buildPostulantes() {
     return StreamBuilder(
       stream: FirebaseFirestore.instance.collection('usuarios').snapshots(),
@@ -83,17 +100,21 @@ class _DashboardEmpresaState extends State<DashboardEmpresa> {
         if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
         final postulantes = snapshot.data!.docs;
         return ListView(
-          children: postulantes.map((post) => ListTile(
-            title: Text(post['nombre']),
-            subtitle: Text('${post['tipoDiscapacidad']} - ${post['especialidad']}'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => DetallePostulanteScreen(postulante: post.data() as Map<String, dynamic>),
-                ),
-              );
-            },
+          children: postulantes.map((post) => Card(
+            color: const Color(0xFFEAF2F8),
+            child: ListTile(
+              title: Text(post['nombre'], style: const TextStyle(fontFamily: 'Righteous')),
+              subtitle: Text('${post['tipoDiscapacidad']} - ${post['especialidad']}', style: const TextStyle(fontFamily: 'Righteous')),
+              trailing: const Icon(Icons.arrow_forward_ios),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DetallePostulanteScreen(postulante: post.data() as Map<String, dynamic>),
+                  ),
+                );
+              },
+            ),
           )).toList(),
         );
       },
@@ -104,98 +125,115 @@ class _DashboardEmpresaState extends State<DashboardEmpresa> {
     return Form(
       key: _formKey,
       child: ListView(
-        padding: const EdgeInsets.all(16),
         children: [
-          TextFormField(controller: _tituloController, decoration: const InputDecoration(labelText: 'Título del puesto')),
-          TextFormField(controller: _descController, decoration: const InputDecoration(labelText: 'Descripción')),
-          TextFormField(controller: _requisitosController, decoration: const InputDecoration(labelText: 'Requisitos')),
-          TextFormField(controller: _modalidadController, decoration: const InputDecoration(labelText: 'Modalidad')),
-          TextFormField(controller: _salarioController, decoration: const InputDecoration(labelText: 'Salario')),
-          TextFormField(controller: _ubicacionController, decoration: const InputDecoration(labelText: 'Ubicación')),
+          _customField('Título del puesto', _tituloController),
+          _customField('Descripción', _descController),
+          _customField('Requisitos', _requisitosController),
+          _customField('Modalidad', _modalidadController),
+          _customField('Salario', _salarioController),
+          _customField('Ubicación', _ubicacionController),
           const SizedBox(height: 20),
-          ElevatedButton(onPressed: _publicarOferta, child: const Text('Publicar Oferta')),
+          ElevatedButton(
+            onPressed: _publicarOferta,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF2E86C1),
+              foregroundColor: Colors.white,
+              textStyle: const TextStyle(fontFamily: 'Righteous', fontSize: 16),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              minimumSize: const Size.fromHeight(50),
+            ),
+            child: const Text('Publicar Oferta'),
+          ),
         ],
       ),
     );
   }
 
   Widget _buildCapacitaciones() {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text('Publicar nueva capacitación', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-          const SizedBox(height: 10),
-          Form(
-            key: _capFormKey,
-            child: Column(
-              children: [
-                TextFormField(controller: _capTituloController, decoration: const InputDecoration(labelText: 'Título')),
-                TextFormField(controller: _capPlataformaController, decoration: const InputDecoration(labelText: 'Plataforma')),
-                TextFormField(controller: _capLinkController, decoration: const InputDecoration(labelText: 'Enlace')),
-                const SizedBox(height: 10),
-                ElevatedButton(onPressed: _publicarCapacitacion, child: const Text('Publicar capacitación')),
-              ],
-            ),
+    return Column(
+      children: [
+        const Text('Publicar nueva capacitación', style: TextStyle(fontSize: 20, fontFamily: 'Righteous', color: Color(0xFF2C3E50))),
+        const SizedBox(height: 10),
+        Form(
+          key: _capFormKey,
+          child: Column(
+            children: [
+              _customField('Título', _capTituloController),
+              _customField('Plataforma', _capPlataformaController),
+              _customField('Enlace', _capLinkController),
+              const SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: _publicarCapacitacion,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF2E86C1),
+                  foregroundColor: Colors.white,
+                  textStyle: const TextStyle(fontFamily: 'Righteous', fontSize: 16),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  minimumSize: const Size.fromHeight(50),
+                ),
+                child: const Text('Publicar capacitación'),
+              ),
+            ],
           ),
-          const Divider(height: 30),
-          const Text('Capacitaciones publicadas:', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-          const SizedBox(height: 10),
-          Expanded(
-            child: StreamBuilder(
-              stream: FirebaseFirestore.instance.collection('capacitaciones').orderBy('fecha', descending: true).snapshots(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
-                final docs = snapshot.data!.docs;
-                return ListView(
-                  children: docs.map((doc) => ListTile(
-                    title: Text(doc['titulo'] ?? 'Sin título'),
+        ),
+        const Divider(height: 30),
+        const Text('Capacitaciones publicadas:', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, fontFamily: 'Righteous')),
+        const SizedBox(height: 10),
+        Expanded(
+          child: StreamBuilder(
+            stream: FirebaseFirestore.instance.collection('capacitaciones').orderBy('fecha', descending: true).snapshots(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
+              final docs = snapshot.data!.docs;
+              return ListView(
+                children: docs.map((doc) => Card(
+                  color: const Color(0xFFEAF2F8),
+                  child: ListTile(
+                    title: Text(doc['titulo'] ?? 'Sin título', style: const TextStyle(fontFamily: 'Righteous')),
                     subtitle: Text('Plataforma: ${doc['plataforma'] ?? 'No especificada'}'),
                     trailing: IconButton(
                       icon: const Icon(Icons.copy),
                       onPressed: () => Clipboard.setData(ClipboardData(text: doc['link'] ?? '')),
                     ),
-                  )).toList(),
-                );
-              },
-            ),
+                  ),
+                )).toList(),
+              );
+            },
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
   Widget _buildPerfilEmpresa() {
     if (empresaDoc == null) return const Center(child: CircularProgressIndicator());
-
-    if (!empresaDoc!.exists) {
-      return const Center(child: Text('Perfil no encontrado.'));
-    }
-
+    if (!empresaDoc!.exists) return const Center(child: Text('Perfil no encontrado.'));
     final data = empresaDoc!.data() as Map<String, dynamic>;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return ListView(
       children: [
         const SizedBox(height: 20),
         const Center(
           child: CircleAvatar(
             radius: 50,
-            child: Icon(Icons.business, size: 50),
+            backgroundColor: Color(0xFF2C3E50),
+            child: Icon(Icons.business, size: 50, color: Colors.white),
           ),
         ),
         const SizedBox(height: 20),
-        Text('Nombre Empresa: ${data['nombreEmpresa'] ?? 'No disponible'}'),
-        Text('Correo Electrónico: ${data['email'] ?? 'No disponible'}'),
-        Text('Gerente: ${data['gerente'] ?? 'No disponible'}'),
-        Text('Rubro: ${data['rubro'] ?? 'No disponible'}'),
-        Text('RUC: ${data['ruc'] ?? 'No disponible'}'),
-        Text('Ubicación: ${data['ubicacion'] ?? 'No disponible'}'),
-      ].map((widget) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-        child: widget,
-      )).toList(),
+        _perfilText('Nombre Empresa', data['nombreEmpresa']),
+        _perfilText('Correo Electrónico', data['email']),
+        _perfilText('Gerente', data['gerente']),
+        _perfilText('Rubro', data['rubro']),
+        _perfilText('RUC', data['ruc']),
+        _perfilText('Ubicación', data['ubicacion']),
+      ],
+    );
+  }
+
+  Widget _perfilText(String label, String? value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Text('$label: ${value ?? "No disponible"}', style: const TextStyle(fontSize: 16, fontFamily: 'Righteous')),
     );
   }
 
@@ -209,12 +247,21 @@ class _DashboardEmpresaState extends State<DashboardEmpresa> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Empresa')),
-      body: _pages[_selectedIndex],
+      backgroundColor: const Color(0xFFD4E6F1),
+      appBar: AppBar(
+        title: const Text('Panel Empresa', style: TextStyle(fontFamily: 'Righteous', color: Colors.white)),
+        backgroundColor: const Color(0xFF2C3E50),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: _pages[_selectedIndex],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: (i) => setState(() => _selectedIndex = i),
-        selectedItemColor: Colors.teal,
+        selectedItemColor: const Color(0xFF2C3E50),
+        unselectedItemColor: Colors.grey[600],
+        selectedLabelStyle: const TextStyle(fontFamily: 'Righteous'),
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.people), label: 'Postulantes'),
           BottomNavigationBarItem(icon: Icon(Icons.post_add), label: 'Nueva Oferta'),

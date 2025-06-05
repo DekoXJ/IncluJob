@@ -30,6 +30,17 @@ class _CapacitacionesEmpresaState extends State<CapacitacionesEmpresa> {
     }
   }
 
+  void _abrirEnlace(String url) async {
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('No se pudo abrir el enlace')),
+      );
+    }
+  }
+
   Widget _buildListaCapacitaciones() {
     return StreamBuilder(
       stream: FirebaseFirestore.instance
@@ -42,12 +53,17 @@ class _CapacitacionesEmpresaState extends State<CapacitacionesEmpresa> {
         return ListView(
           children: docs.map((doc) {
             final data = doc.data() as Map<String, dynamic>;
-            return ListTile(
-              title: Text(data['titulo'] ?? 'Sin título'),
-              subtitle: Text('${data['plataforma'] ?? 'Sin plataforma'}'),
-              trailing: IconButton(
-                icon: const Icon(Icons.open_in_browser),
-                onPressed: () => _abrirEnlace(data['link']),
+            return Card(
+              color: const Color(0xFFEAF2F8),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              margin: const EdgeInsets.symmetric(vertical: 6),
+              child: ListTile(
+                title: Text(data['titulo'] ?? 'Sin título', style: const TextStyle(fontFamily: 'Righteous')),
+                subtitle: Text('Plataforma: ${data['plataforma'] ?? 'Sin plataforma'}'),
+                trailing: IconButton(
+                  icon: const Icon(Icons.open_in_browser, color: Color(0xFF2C3E50)),
+                  onPressed: () => _abrirEnlace(data['link']),
+                ),
               ),
             );
           }).toList(),
@@ -56,56 +72,72 @@ class _CapacitacionesEmpresaState extends State<CapacitacionesEmpresa> {
     );
   }
 
-  void _abrirEnlace(String url) async {
-    final uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('No se pudo abrir el enlace')));
-    }
+  Widget _customField(String label, TextEditingController controller) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: TextFormField(
+        controller: controller,
+        decoration: InputDecoration(
+          labelText: label,
+          labelStyle: const TextStyle(fontFamily: 'Righteous'),
+          filled: true,
+          fillColor: const Color(0xFFD6EAF8),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+        ),
+        validator: (value) => value == null || value.isEmpty ? 'Campo requerido' : null,
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text('Publicar nueva capacitación', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-          const SizedBox(height: 10),
-          Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                TextFormField(
-                  controller: _tituloController,
-                  decoration: const InputDecoration(labelText: 'Título del curso'),
-                  validator: (value) => value!.isEmpty ? 'Ingrese un título' : null,
-                ),
-                TextFormField(
-                  controller: _plataformaController,
-                  decoration: const InputDecoration(labelText: 'Plataforma (Udemy, Platzi, etc.)'),
-                  validator: (value) => value!.isEmpty ? 'Ingrese una plataforma' : null,
-                ),
-                TextFormField(
-                  controller: _linkController,
-                  decoration: const InputDecoration(labelText: 'URL del curso'),
-                  validator: (value) => value!.isEmpty ? 'Ingrese un enlace válido' : null,
-                ),
-                const SizedBox(height: 10),
-                ElevatedButton(
-                  onPressed: _publicarCapacitacion,
-                  child: const Text('Publicar'),
-                ),
-              ],
+    return Scaffold(
+      backgroundColor: const Color(0xFFD4E6F1),
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF2C3E50),
+        title: const Text('Capacitaciones', style: TextStyle(fontFamily: 'Righteous', color: Colors.white)),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Publicar nueva capacitación',
+              style: TextStyle(fontSize: 20, fontFamily: 'Righteous', color: Color(0xFF2C3E50)),
             ),
-          ),
-          const Divider(height: 30),
-          const Text('Capacitaciones publicadas:', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-          const SizedBox(height: 10),
-          Expanded(child: _buildListaCapacitaciones()),
-        ],
+            const SizedBox(height: 10),
+            Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  _customField('Título del curso', _tituloController),
+                  _customField('Plataforma (Udemy, Platzi, etc.)', _plataformaController),
+                  _customField('URL del curso', _linkController),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: _publicarCapacitacion,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF2E86C1),
+                      foregroundColor: Colors.white,
+                      textStyle: const TextStyle(fontFamily: 'Righteous', fontSize: 16),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      minimumSize: const Size.fromHeight(50),
+                    ),
+                    child: const Text('Publicar capacitación'),
+                  ),
+                ],
+              ),
+            ),
+            const Divider(height: 30),
+            const Text(
+              'Capacitaciones publicadas:',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, fontFamily: 'Righteous'),
+            ),
+            const SizedBox(height: 10),
+            Expanded(child: _buildListaCapacitaciones()),
+          ],
+        ),
       ),
     );
   }

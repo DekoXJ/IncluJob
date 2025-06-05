@@ -56,7 +56,9 @@ class _DashboardUsuarioState extends State<DashboardUsuario> {
         for (var entry in _controllers.entries) entry.key: entry.value.text.trim()
       };
       await FirebaseFirestore.instance.collection('usuarios').doc(userId).update(data);
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Perfil actualizado correctamente')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Perfil actualizado correctamente')),
+      );
     }
   }
 
@@ -67,17 +69,21 @@ class _DashboardUsuarioState extends State<DashboardUsuario> {
         if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
         final docs = snapshot.data!.docs;
         return ListView(
-          children: docs.map((doc) => ListTile(
-            title: Text(doc['titulo']),
-            subtitle: Text(doc['ubicacion']),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => DetalleEmpleoScreen(empleo: doc.data() as Map<String, dynamic>),
-                ),
-              );
-            },
+          children: docs.map((doc) => Card(
+            color: const Color(0xFFEAF2F8),
+            child: ListTile(
+              title: Text(doc['titulo'], style: const TextStyle(fontFamily: 'Righteous')),
+              subtitle: Text(doc['ubicacion'], style: const TextStyle(fontFamily: 'Righteous')),
+              trailing: const Icon(Icons.arrow_forward_ios),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DetalleEmpleoScreen(empleo: doc.data() as Map<String, dynamic>),
+                  ),
+                );
+              },
+            ),
           )).toList(),
         );
       },
@@ -91,30 +97,45 @@ class _DashboardUsuarioState extends State<DashboardUsuario> {
       key: _formKey,
       child: ListView(
         children: [
-          const SizedBox(height: 20),
-          const CircleAvatar(radius: 50, child: Icon(Icons.person, size: 50)),
+          const SizedBox(height: 10),
+          const CircleAvatar(
+              radius: 50,
+              backgroundColor: Color(0xFF2C3E50),
+              child: Icon(Icons.person, size: 50, color: Colors.white),
+            ),
           const SizedBox(height: 20),
           ..._controllers.entries.map((entry) {
             return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              padding: const EdgeInsets.symmetric(vertical: 8),
               child: TextFormField(
                 controller: entry.value,
                 decoration: InputDecoration(
                   labelText: entry.key[0].toUpperCase() + entry.key.substring(1),
-                  border: const OutlineInputBorder(),
+                  labelStyle: const TextStyle(fontFamily: 'Righteous'),
+                  filled: true,
+                  fillColor: const Color(0xFFD6EAF8),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
                 ),
                 validator: (value) => value == null || value.isEmpty ? 'Campo requerido' : null,
               ),
             );
           }),
           const SizedBox(height: 20),
-          ElevatedButton(onPressed: _guardarPerfil, child: const Text('Guardar')),
+          ElevatedButton(
+            onPressed: _guardarPerfil,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF2E86C1),
+              foregroundColor: Colors.white,
+              textStyle: const TextStyle(fontFamily: 'Righteous', fontSize: 16),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              minimumSize: const Size.fromHeight(50),
+            ),
+            child: const Text('Guardar'),
+          ),
         ],
       ),
     );
   }
-
-  final List<Widget> _pages = [];
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +146,11 @@ class _DashboardUsuarioState extends State<DashboardUsuario> {
     ];
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Usuario')),
+      backgroundColor: const Color(0xFFD4E6F1),
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF2C3E50),
+        title: const Text('Panel Usuario', style: TextStyle(fontFamily: 'Righteous', color: Colors.white)),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: pages[_selectedIndex],
@@ -133,7 +158,9 @@ class _DashboardUsuarioState extends State<DashboardUsuario> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: (i) => setState(() => _selectedIndex = i),
-        selectedItemColor: Colors.teal,
+        selectedItemColor: const Color(0xFF2C3E50),
+        unselectedItemColor: Colors.grey[600],
+        selectedLabelStyle: const TextStyle(fontFamily: 'Righteous'),
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.work), label: 'Ofertas'),
           BottomNavigationBarItem(icon: Icon(Icons.school), label: 'Capacitaciones'),
