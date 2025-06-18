@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'detalle_empleo_screen.dart';
 import 'capacitaciones_usuario.dart';
+import 'cuestionario_screen.dart';
+import 'historial_evaluaciones.dart';
 
 class DashboardUsuario extends StatefulWidget {
   const DashboardUsuario({super.key});
@@ -16,6 +18,8 @@ class _DashboardUsuarioState extends State<DashboardUsuario> {
   int _selectedIndex = 0;
   late String userId;
   DocumentSnapshot? userDoc;
+  String _filtro = '';
+  final _searchController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final Map<String, TextEditingController> _controllers = {
     'nombre': TextEditingController(),
@@ -63,30 +67,66 @@ class _DashboardUsuarioState extends State<DashboardUsuario> {
   }
 
   Widget _buildListaEmpleos() {
-    return StreamBuilder(
-      stream: FirebaseFirestore.instance.collection('ofertas').snapshots(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
-        final docs = snapshot.data!.docs;
-        return ListView(
-          children: docs.map((doc) => Card(
-            color: const Color(0xFFEAF2F8),
-            child: ListTile(
-              title: Text(doc['titulo'], style: const TextStyle(fontFamily: 'Righteous')),
-              subtitle: Text(doc['ubicacion'], style: const TextStyle(fontFamily: 'Righteous')),
-              trailing: const Icon(Icons.arrow_forward_ios),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => DetalleEmpleoScreen(empleo: doc.data() as Map<String, dynamic>),
+    return Column(
+      children: [
+        TextField(
+          controller: _searchController,
+          onChanged: (value) => setState(() => _filtro = value.toLowerCase()),
+          decoration: InputDecoration(
+            hintText: 'Buscar empleo...',
+            prefixIcon: const Icon(Icons.search),
+            filled: true,
+            fillColor: const Color(0xFFD6EAF8),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+          ),
+        ),
+        const SizedBox(height: 10),
+        Expanded(
+          child: StreamBuilder(
+            stream: FirebaseFirestore.instance.collection('ofertas').snapshots(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
+              final docs = snapshot.data!.docs;
+              final resultados = docs.where((doc) {
+                final data = doc.data() as Map<String, dynamic>;
+                final titulo = data['titulo']?.toString().toLowerCase() ?? '';
+                final descripcion = data['descripcion']?.toString().toLowerCase() ?? '';
+                return titulo.contains(_filtro) || descripcion.contains(_filtro);
+              }).toList();
+
+              if (resultados.isEmpty) {
+                return const Center(child: Text('No se encontraron empleos relacionados.'));
+              }
+
+              return ListView(
+                children: resultados.map((doc) => Card(
+                  color: const Color(0xFFEAF2F8),
+                  child: ListTile(
+                    title: Text(doc['titulo'], style: const TextStyle(fontFamily: 'Righteous')),
+                    subtitle: Text(doc['ubicacion'], style: const TextStyle(fontFamily: 'Righteous')),
+                    trailing: const Icon(Icons.arrow_forward_ios),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DetalleEmpleoScreen(empleo: doc.data() as Map<String, dynamic>),
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),
-          )).toList(),
-        );
-      },
+                )).toList(),
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildEvaluaciones() {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.8,
+      child: HistorialEvaluaciones(userId: userId),
     );
   }
 
@@ -142,6 +182,7 @@ class _DashboardUsuarioState extends State<DashboardUsuario> {
     final pages = [
       _buildListaEmpleos(),
       const CapacitacionesUsuario(),
+      _buildEvaluaciones(),
       _buildPerfilUsuario(),
     ];
 
@@ -164,6 +205,7 @@ class _DashboardUsuarioState extends State<DashboardUsuario> {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.work), label: 'Ofertas'),
           BottomNavigationBarItem(icon: Icon(Icons.school), label: 'Capacitaciones'),
+          BottomNavigationBarItem(icon: Icon(Icons.assignment), label: 'Evaluación'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Perfil'),
         ],
       ),
