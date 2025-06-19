@@ -50,9 +50,9 @@ class _LoginEmpresaScreenState extends State<LoginEmpresaScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFD4E6F1),
+      backgroundColor: const Color(0xFFF6DDCC),
       appBar: AppBar(
-        backgroundColor: const Color(0xFF2C3E50),
+        backgroundColor: const Color(0xFF2D1E33),
         title: const Text(
           'Login Empresa',
           style: TextStyle(fontFamily: 'Righteous', color: Colors.white),
@@ -65,7 +65,7 @@ class _LoginEmpresaScreenState extends State<LoginEmpresaScreen> {
             const SizedBox(height: 40),
             const CircleAvatar(
               radius: 50,
-              backgroundColor: Color(0xFF2C3E50),
+              backgroundColor: Color(0xFF23A393),
               child: Icon(Icons.business, size: 50, color: Colors.white),
             ),
             const SizedBox(height: 30),
@@ -78,12 +78,14 @@ class _LoginEmpresaScreenState extends State<LoginEmpresaScreen> {
                       labelText: 'Correo',
                       labelStyle: TextStyle(fontFamily: 'Righteous'),
                       border: OutlineInputBorder(),
+                      fillColor: Colors.white,
+                      filled: true,
                     ),
                   ),
                 ),
                 const SizedBox(width: 8),
                 IconButton(
-                  icon: const Icon(Icons.mic, color: Color(0xFFF5B041)),
+                  icon: const Icon(Icons.mic, color: Color(0xFFF28C57)),
                   onPressed: _listenEmail,
                 ),
               ],
@@ -96,13 +98,15 @@ class _LoginEmpresaScreenState extends State<LoginEmpresaScreen> {
                 labelText: 'Contraseña',
                 labelStyle: TextStyle(fontFamily: 'Righteous'),
                 border: OutlineInputBorder(),
+                fillColor: Colors.white,
+                filled: true,
               ),
             ),
             const SizedBox(height: 30),
             ElevatedButton(
               onPressed: _login,
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF2C3E50),
+                backgroundColor: const Color(0xFF23A393),
                 foregroundColor: Colors.white,
                 minimumSize: const Size(double.infinity, 50),
                 textStyle: const TextStyle(fontSize: 18, fontFamily: 'Righteous'),
@@ -115,7 +119,7 @@ class _LoginEmpresaScreenState extends State<LoginEmpresaScreen> {
               onPressed: _goToRegister,
               child: const Text(
                 '¿No tienes cuenta? Regístrate',
-                style: TextStyle(fontFamily: 'Righteous', color: Color(0xFF34495E)),
+                style: TextStyle(fontFamily: 'Righteous', color: Color(0xFF2D1E33)),
               ),
             ),
           ],

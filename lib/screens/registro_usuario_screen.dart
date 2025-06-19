@@ -48,7 +48,7 @@ class _RegistroUsuarioScreenState extends State<RegistroUsuarioScreen> {
         Navigator.pop(context);
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: ${e.toString()}')),
+          SnackBar(content: Text('Error: \${e.toString()}')),
         );
       }
     }
@@ -79,6 +79,8 @@ class _RegistroUsuarioScreenState extends State<RegistroUsuarioScreen> {
                 labelText: label,
                 labelStyle: const TextStyle(fontFamily: 'Righteous'),
                 border: const OutlineInputBorder(),
+                fillColor: Colors.white,
+                filled: true,
               ),
               validator: (value) => value!.isEmpty ? 'Campo requerido' : null,
             ),
@@ -87,7 +89,7 @@ class _RegistroUsuarioScreenState extends State<RegistroUsuarioScreen> {
             const SizedBox(width: 8),
           if (!isPassword)
             IconButton(
-              icon: const Icon(Icons.mic, color: Color(0xFFF5B041)),
+              icon: const Icon(Icons.mic, color: Color(0xFFF28C57)),
               onPressed: () => _listen(controller),
             ),
         ],
@@ -98,9 +100,9 @@ class _RegistroUsuarioScreenState extends State<RegistroUsuarioScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFD4E6F1),
+      backgroundColor: const Color(0xFFF6DDCC),
       appBar: AppBar(
-        backgroundColor: const Color(0xFF2C3E50),
+        backgroundColor: const Color(0xFF2D1E33),
         title: const Text('Registro Usuario', style: TextStyle(fontFamily: 'Righteous', color: Colors.white)),
       ),
       body: Padding(
@@ -113,7 +115,7 @@ class _RegistroUsuarioScreenState extends State<RegistroUsuarioScreen> {
               const Center(
                 child: CircleAvatar(
                   radius: 45,
-                  backgroundColor: Color(0xFF2C3E50),
+                  backgroundColor: Color(0xFF23A393),
                   child: Icon(Icons.person, color: Colors.white, size: 50),
                 ),
               ),
@@ -132,7 +134,7 @@ class _RegistroUsuarioScreenState extends State<RegistroUsuarioScreen> {
               ElevatedButton(
                 onPressed: _registrarUsuario,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF2C3E50),
+                  backgroundColor: const Color(0xFF23A393),
                   foregroundColor: Colors.white,
                   minimumSize: const Size(double.infinity, 50),
                   textStyle: const TextStyle(fontSize: 18, fontFamily: 'Righteous'),

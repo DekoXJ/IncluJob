@@ -67,6 +67,8 @@ class _RegistroEmpresaScreenState extends State<RegistroEmpresaScreen> {
                 labelText: label,
                 labelStyle: const TextStyle(fontFamily: 'Righteous'),
                 border: const OutlineInputBorder(),
+                fillColor: Colors.white,
+                filled: true,
               ),
               validator: (value) => value!.isEmpty ? 'Campo requerido' : null,
             ),
@@ -75,7 +77,7 @@ class _RegistroEmpresaScreenState extends State<RegistroEmpresaScreen> {
             const SizedBox(width: 8),
           if (!isPassword)
             IconButton(
-              icon: const Icon(Icons.mic, color: Color(0xFFF5B041)),
+              icon: const Icon(Icons.mic, color: Color(0xFFF28C57)),
               onPressed: () => _listen(controller),
             ),
         ],
@@ -86,9 +88,9 @@ class _RegistroEmpresaScreenState extends State<RegistroEmpresaScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFD4E6F1),
+      backgroundColor: const Color(0xFFF6DDCC),
       appBar: AppBar(
-        backgroundColor: const Color(0xFF2C3E50),
+        backgroundColor: const Color(0xFF2D1E33),
         title: const Text('Registro Empresa', style: TextStyle(fontFamily: 'Righteous', color: Colors.white)),
       ),
       body: Form(
@@ -100,7 +102,7 @@ class _RegistroEmpresaScreenState extends State<RegistroEmpresaScreen> {
             const Center(
               child: CircleAvatar(
                 radius: 45,
-                backgroundColor: Color(0xFF2C3E50),
+                backgroundColor: Color(0xFF23A393),
                 child: Icon(Icons.business, color: Colors.white, size: 50),
               ),
             ),
@@ -116,7 +118,7 @@ class _RegistroEmpresaScreenState extends State<RegistroEmpresaScreen> {
             ElevatedButton(
               onPressed: _registrar,
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF2C3E50),
+                backgroundColor: const Color(0xFF23A393),
                 foregroundColor: Colors.white,
                 minimumSize: const Size(double.infinity, 50),
                 textStyle: const TextStyle(fontSize: 18, fontFamily: 'Righteous'),

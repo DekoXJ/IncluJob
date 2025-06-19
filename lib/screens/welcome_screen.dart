@@ -17,7 +17,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   void _speakAndNavigate(String userType) async {
     await _tts.speak('Has seleccionado iniciar sesión como $userType');
     await Future.delayed(const Duration(seconds: 2));
-
     if (!mounted) return;
     if (userType == 'usuario') {
       Navigator.pushNamed(context, '/loginUsuario');
@@ -57,7 +56,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFD4E6F1), // Fondo azul claro como el del logo
+      backgroundColor: const Color(0xFFF6DDCC), // Fondo beige claro
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Column(
@@ -73,7 +72,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               style: TextStyle(
                 fontSize: 28,
                 fontFamily: 'Righteous',
-                color: Color(0xFF1C2833), // Azul oscuro
+                color: Color(0xFF2D1E33), // Fondo oscuro del logo
               ),
               textAlign: TextAlign.center,
             ),
@@ -83,7 +82,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               label: const Text('Iniciar sesión como Usuario'),
               onPressed: () => Navigator.pushNamed(context, '/loginUsuario'),
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF2C3E50),
+                backgroundColor: const Color(0xFF23A393), // Verde azulado
                 foregroundColor: Colors.white,
                 minimumSize: const Size(double.infinity, 50),
                 textStyle: const TextStyle(fontFamily: 'Righteous'),
@@ -96,7 +95,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               label: const Text('Iniciar sesión como Empresa'),
               onPressed: () => Navigator.pushNamed(context, '/loginEmpresa'),
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF34495E),
+                backgroundColor: const Color(0xFF2D1E33), // Fondo oscuro
                 foregroundColor: Colors.white,
                 minimumSize: const Size(double.infinity, 50),
                 textStyle: const TextStyle(fontFamily: 'Righteous'),
@@ -109,7 +108,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               label: Text(_isListening ? 'Escuchando...' : 'Usar Voz'),
               onPressed: _isListening ? null : _startListening,
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFF5B041), // Complementario naranja suave
+                backgroundColor: const Color(0xFFF28C57), // Naranja suave
                 foregroundColor: Colors.white,
                 minimumSize: const Size(double.infinity, 50),
                 textStyle: const TextStyle(fontFamily: 'Righteous'),
@@ -122,7 +121,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               style: TextStyle(
                 fontSize: 16,
                 fontFamily: 'Righteous',
-                color: Color(0xFF566573),
+                color: Color(0xFF2D1E33), // Oscuro legible
               ),
               textAlign: TextAlign.center,
             ),

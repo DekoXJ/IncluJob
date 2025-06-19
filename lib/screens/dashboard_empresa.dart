@@ -85,7 +85,7 @@ class _DashboardEmpresaState extends State<DashboardEmpresa> {
           labelText: label,
           labelStyle: const TextStyle(fontFamily: 'Righteous'),
           filled: true,
-          fillColor: const Color(0xFFD6EAF8),
+          fillColor: const Color(0xFFF6DDCC),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
         ),
         validator: (value) => value == null || value.isEmpty ? 'Campo requerido' : null,
@@ -136,7 +136,7 @@ class _DashboardEmpresaState extends State<DashboardEmpresa> {
           ElevatedButton(
             onPressed: _publicarOferta,
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF2E86C1),
+              backgroundColor: const Color(0xFF23A393),
               foregroundColor: Colors.white,
               textStyle: const TextStyle(fontFamily: 'Righteous', fontSize: 16),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -152,7 +152,7 @@ class _DashboardEmpresaState extends State<DashboardEmpresa> {
   Widget _buildCapacitaciones() {
     return Column(
       children: [
-        const Text('Publicar nueva capacitación', style: TextStyle(fontSize: 20, fontFamily: 'Righteous', color: Color(0xFF2C3E50))),
+        const Text('Publicar nueva capacitación', style: TextStyle(fontSize: 20, fontFamily: 'Righteous', color: Color(0xFF2D1E33)) ),
         const SizedBox(height: 10),
         Form(
           key: _capFormKey,
@@ -165,7 +165,7 @@ class _DashboardEmpresaState extends State<DashboardEmpresa> {
               ElevatedButton(
                 onPressed: _publicarCapacitacion,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF2E86C1),
+                  backgroundColor: const Color(0xFF23A393),
                   foregroundColor: Colors.white,
                   textStyle: const TextStyle(fontFamily: 'Righteous', fontSize: 16),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -215,7 +215,7 @@ class _DashboardEmpresaState extends State<DashboardEmpresa> {
         const Center(
           child: CircleAvatar(
             radius: 50,
-            backgroundColor: Color(0xFF2C3E50),
+            backgroundColor: Color(0xFF23A393),
             child: Icon(Icons.business, size: 50, color: Colors.white),
           ),
         ),
@@ -247,10 +247,10 @@ class _DashboardEmpresaState extends State<DashboardEmpresa> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFD4E6F1),
+      backgroundColor: const Color(0xFFF6DDCC),
       appBar: AppBar(
         title: const Text('Panel Empresa', style: TextStyle(fontFamily: 'Righteous', color: Colors.white)),
-        backgroundColor: const Color(0xFF2C3E50),
+        backgroundColor: const Color(0xFF2D1E33),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -259,9 +259,10 @@ class _DashboardEmpresaState extends State<DashboardEmpresa> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: (i) => setState(() => _selectedIndex = i),
-        selectedItemColor: const Color(0xFF2C3E50),
-        unselectedItemColor: Colors.grey[600],
+        selectedItemColor: const Color(0xFF23A393),
+        unselectedItemColor: Color(0xFFF28C57),
         selectedLabelStyle: const TextStyle(fontFamily: 'Righteous'),
+        unselectedLabelStyle: const TextStyle(fontFamily: 'Righteous'),
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.people), label: 'Postulantes'),
           BottomNavigationBarItem(icon: Icon(Icons.post_add), label: 'Nueva Oferta'),

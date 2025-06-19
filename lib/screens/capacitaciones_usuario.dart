@@ -8,9 +8,9 @@ class CapacitacionesUsuario extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFD4E6F1),
+      backgroundColor: const Color(0xFFF6DDCC),
       appBar: AppBar(
-        backgroundColor: const Color(0xFF2C3E50),
+        backgroundColor: const Color(0xFF2D1E33),
         title: const Text('Capacitaciones', style: TextStyle(fontFamily: 'Righteous', color: Colors.white)),
       ),
       body: StreamBuilder(
@@ -53,7 +53,7 @@ class CapacitacionesUsuario extends StatelessWidget {
                     style: const TextStyle(fontFamily: 'Righteous'),
                   ),
                   trailing: IconButton(
-                    icon: const Icon(Icons.copy, color: Color(0xFF2C3E50)),
+                    icon: const Icon(Icons.copy, color: Color(0xFF23A393)),
                     onPressed: () {
                       Clipboard.setData(ClipboardData(text: data['link'] ?? ''));
                       ScaffoldMessenger.of(context).showSnackBar(

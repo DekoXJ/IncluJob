@@ -8,10 +8,10 @@ class DetalleEmpleoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFD4E6F1),
+      backgroundColor: const Color(0xFFF6DDCC),
       appBar: AppBar(
         title: const Text('Detalle del Empleo', style: TextStyle(fontFamily: 'Righteous', color: Colors.white)),
-        backgroundColor: const Color(0xFF2C3E50),
+        backgroundColor: const Color(0xFF2D1E33),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -41,7 +41,7 @@ class DetalleEmpleoScreen extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () => Navigator.pop(context),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF2E86C1),
+                      backgroundColor: const Color(0xFF23A393),
                       foregroundColor: Colors.white,
                       textStyle: const TextStyle(fontFamily: 'Righteous', fontSize: 16),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),

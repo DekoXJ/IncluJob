@@ -1,4 +1,3 @@
-// Pantalla de formulario de evaluación con 20 preguntas y calificación automática y registro en Firestore
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -82,6 +81,7 @@ class _CuestionarioScreenState extends State<CuestionarioScreen> {
                     value: 1,
                     groupValue: _respuestas[index],
                     onChanged: (val) => setState(() => _respuestas[index] = val!),
+                    activeColor: const Color(0xFF23A393),
                   ),
                 ),
                 Expanded(
@@ -90,6 +90,7 @@ class _CuestionarioScreenState extends State<CuestionarioScreen> {
                     value: 0,
                     groupValue: _respuestas[index],
                     onChanged: (val) => setState(() => _respuestas[index] = val!),
+                    activeColor: const Color(0xFFF28C57),
                   ),
                 ),
               ],
@@ -110,10 +111,10 @@ class _CuestionarioScreenState extends State<CuestionarioScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFF2C3E50),
+        backgroundColor: const Color(0xFF2D1E33),
         title: Text(widget.titulo, style: const TextStyle(color: Colors.white, fontFamily: 'Righteous')),
       ),
-      backgroundColor: const Color(0xFFD4E6F1),
+      backgroundColor: const Color(0xFFF6DDCC),
       body: Form(
         key: _formKey,
         child: ListView(
@@ -124,7 +125,7 @@ class _CuestionarioScreenState extends State<CuestionarioScreen> {
             ElevatedButton(
               onPressed: _respuestas.length == 20 ? _calcularResultado : null,
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF2E86C1),
+                backgroundColor: const Color(0xFF23A393),
                 foregroundColor: Colors.white,
                 textStyle: const TextStyle(fontFamily: 'Righteous', fontSize: 16),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),

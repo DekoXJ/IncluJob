@@ -10,9 +10,9 @@ class HistorialEvaluaciones extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFD4E6F1),
+      backgroundColor: const Color(0xFFF6DDCC),
       appBar: AppBar(
-        backgroundColor: const Color(0xFF2C3E50),
+        backgroundColor: const Color(0xFF2D1E33),
         title: const Text('Evaluaciones', style: TextStyle(fontFamily: 'Righteous', color: Colors.white)),
       ),
       body: ListView(
@@ -24,9 +24,9 @@ class HistorialEvaluaciones extends StatelessWidget {
           ...['Motora', 'Psicosocial', 'Visual', 'Auditiva', 'Intelectual'].map((tipo) => Card(
                 color: const Color(0xFFEAF2F8),
                 child: ListTile(
-                  leading: const Icon(Icons.assignment_turned_in),
+                  leading: const Icon(Icons.assignment_turned_in, color: Color(0xFF23A393)),
                   title: Text('Evaluación para Discapacidad $tipo', style: const TextStyle(fontFamily: 'Righteous')),
-                  trailing: const Icon(Icons.arrow_forward_ios),
+                  trailing: const Icon(Icons.arrow_forward_ios, color: Color(0xFF2D1E33)),
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -63,7 +63,7 @@ class HistorialEvaluaciones extends StatelessWidget {
                       title: Text(data['titulo'], style: const TextStyle(fontFamily: 'Righteous')),
                       subtitle: Text('Puntaje: ${data['puntaje']}/20\nResultado: ${data['evaluacion']}\nFecha: ${fecha.toLocal()}'),
                       trailing: IconButton(
-                        icon: const Icon(Icons.replay),
+                        icon: const Icon(Icons.replay, color: Color(0xFFF28C57)),
                         onPressed: () => Navigator.push(
                           context,
                           MaterialPageRoute(
